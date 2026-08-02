@@ -94,6 +94,18 @@ input, textarea, button { font-family: inherit; }
 }
 .social-orb:active { transform: scale(1.1); }
 
+/* Fusion vers le footer : chaque icône vole jusqu'à sa jumelle (--mdx/--mdy/--msc),
+   avec un léger flip 3D qui revient à plat, et se fond en toute fin de course.
+   Le décalage (animation-delay) fait décrocher les icônes une à une. */
+@keyframes social-merge {
+  0%   { opacity: 1; transform: translate(0,0) rotateY(0deg) scale(1); }
+  55%  { opacity: 1; transform: translate(calc(var(--mdx) * .6), calc(var(--mdy) * .6)) rotateY(26deg) scale(calc(1 - (1 - var(--msc)) * .6)); }
+  100% { opacity: 0; transform: translate(var(--mdx), var(--mdy)) rotateY(0deg) scale(var(--msc)); }
+}
+.social-merge { animation: social-merge 0.8s cubic-bezier(.45,0,.2,1) both; }
+/* retour : les icônes ressortent du footer et reviennent sur le flottant (animation inversée) */
+.social-unmerge { animation: social-merge 0.8s cubic-bezier(.45,0,.2,1) reverse both; }
+
 /* Carte de lien social (page contact) — inclinaison 3D + éclat */
 .social-card {
   transition: transform .34s cubic-bezier(.2,.8,.2,1), border-color .25s, box-shadow .3s;

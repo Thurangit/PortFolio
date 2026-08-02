@@ -70,9 +70,9 @@ export default function Footer({ lang = 'fr', setPage }) {
           {/* Réseaux */}
           <div style={{ perspective: '600px' }}>
             <h3 style={{ margin: '0 0 16px', fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ac)' }}>{heads.social}</h3>
-            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <div data-social-group style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               {social.map(s => (
-                <a key={s.id} href={s.url} target="_blank" rel="noopener noreferrer" className="social-orb" title={s.label}
+                <a key={s.id} href={s.url} target="_blank" rel="noopener noreferrer" className="social-orb" title={s.label} data-social={s.id}
                   onMouseEnter={() => setHovered(s.id)} onMouseLeave={() => setHovered(null)}
                   style={{
                     width: 42, height: 42, borderRadius: '50%', border: `1px solid ${hovered === s.id ? s.brand : 'var(--line)'}`,
