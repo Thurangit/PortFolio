@@ -20,7 +20,7 @@ export default function ContactPage({ lang }) {
       <section style={{ maxWidth: 1280, margin: '0 auto', padding: 'clamp(120px,15vh,168px) clamp(20px,5vw,64px) clamp(70px,10vw,120px)' }}>
         <div className="reveal"><SectionLabel>{ui.nav.contact[lang]}</SectionLabel></div>
         <h1 className="reveal" style={{ margin: '18px 0 0', fontFamily: 'var(--disp)', fontWeight: 700, fontSize: 'clamp(36px,6.4vw,78px)', lineHeight: .98, letterSpacing: '-.03em', maxWidth: '15ch' }}>
-          {t.contactIntro}
+          {ui.nav.contact[lang]}
         </h1>
         <div style={{ marginTop: 46, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 'clamp(26px,4vw,56px)' }}>
           <div className="reveal">
