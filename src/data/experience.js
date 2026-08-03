@@ -8,12 +8,12 @@ export const experience = [
     current: true,
     type: "CDD",
     summary: {
-      fr: "Pilotage technique des projets de développement et encadrement des équipes. Analyses transversales pour identifier les leviers d'optimisation et proposer des solutions à la hiérarchie.",
-      en: "Technical lead on development projects and team management. Cross-functional analysis to surface optimisation levers and recommend solutions to leadership."
+      fr: "Je vais au plus près des métiers pour analyser leur fonctionnement, leurs limites et leurs difficultés, puis je conçois, réalise et déploie des solutions sur-mesure qui augmentent leur productivité et lèvent leurs blocages. Le tout avec le pilotage technique des projets et l'encadrement des équipes.",
+      en: "I work hand-in-hand with business teams to analyse how they operate, their limits and pain points, then design, build and deploy tailor-made solutions that boost their productivity and remove their blockers — all while leading projects technically and mentoring the teams."
     },
     highlights: {
-      fr: ["Conception d'Agents IA", "APIs & interfaces Front-end (React / Next.js)", "Architecture technique & bonnes pratiques", "Audits techniques & fonctionnels", "Microsoft Power Platform (Model-Driven & Canvas)", "Tests, déploiement & formations"],
-      en: ["Designing AI agents", "APIs & front-end interfaces (React / Next.js)", "Technical architecture & best practices", "Technical & functional audits", "Microsoft Power Platform (Model-Driven & Canvas)", "Testing, deployment & user training"]
+      fr: ["Conception & réalisation de solutions sur-mesure", "Conception d'Agents IA", "APIs & interfaces Front-end (React / Next.js)", "Architecture technique & bonnes pratiques", "Audits techniques & fonctionnels", "Microsoft Power Platform (Model-Driven & Canvas)", "Tests, déploiement & formations"],
+      en: ["Design & build of tailor-made solutions", "Designing AI agents", "APIs & front-end interfaces (React / Next.js)", "Technical architecture & best practices", "Technical & functional audits", "Microsoft Power Platform (Model-Driven & Canvas)", "Testing, deployment & user training"]
     },
     stack: ["C#", "ASP.NET", "Next.js", "Azure DevOps", "Azure Cloud", "Azure AI", "Power Platform", "SQL Server", "MAUI", "Git"]
   },
