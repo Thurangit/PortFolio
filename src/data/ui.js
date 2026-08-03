@@ -31,12 +31,12 @@ export const ui = {
     private: { fr: "Projet privé", en: "Private project" }
   },
   loader: [
-    "> npm run build",
-    "✓ compiling portfolio.tsx",
-    "✓ loading assets  [████████████] 100%",
-    "✓ booting 3D engine · WebGL",
-    "✓ hydrating AI · Cloud · DevOps",
-    "✓ ready — launching"
+    "> npm run portfolio",
+    "✓ chargement du portfolio — Junior Thuran KONO",
+    "✓ chargement des compétences & technologies  [████████████] 100%",
+    "✓ chargement des projets & réalisations",
+    "✓ chargement de l'expérience & des distinctions",
+    "✓ portfolio prêt — bienvenue"
   ]
 };
 

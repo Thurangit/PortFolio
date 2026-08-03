@@ -16,10 +16,10 @@ export default function Loader({ onDone }) {
       setProgress(Math.round((i / BOOT_LINES.length) * 100));
       if (i >= BOOT_LINES.length) {
         clearInterval(iv);
-        setTimeout(() => setFading(true), 300);
+        setTimeout(() => setFading(true), 400);
         setTimeout(() => onDone(), 1000);
       }
-    }, 430);
+    }, 500); // ~6 lignes × 500 ms + fondu ≈ 4 s
     return () => clearInterval(iv);
   }, [onDone]);
 
@@ -55,7 +55,7 @@ export default function Loader({ onDone }) {
           <div style={{ height: '100%', width: `${progress}%`, background: 'var(--ac)', borderRadius: 20, transition: 'width .4s ease' }} />
         </div>
         <div style={{ marginTop: 8, fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--mut)', display: 'flex', justifyContent: 'space-between' }}>
-          <span>booting 3D · AI · Cloud…</span>
+          <span>chargement du portfolio…</span>
           <span>{progress}%</span>
         </div>
       </div>

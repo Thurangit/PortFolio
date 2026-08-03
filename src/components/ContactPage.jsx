@@ -53,7 +53,7 @@ export default function ContactPage({ lang }) {
 
           <div className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: 14, perspective: '1000px' }}>
             <div style={{ fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--mut)' }}>
-              {profile.availability[lang]} · {profile.location[lang]}
+              {profile.location[lang]}
             </div>
             {social.map(s => (
               <a key={s.id} href={s.url} target="_blank" rel="noopener noreferrer" className="social-card"

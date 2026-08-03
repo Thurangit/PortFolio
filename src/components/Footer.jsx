@@ -36,10 +36,6 @@ export default function Footer({ lang = 'fr', setPage }) {
               </div>
             </div>
             <p style={{ margin: '18px 0 0', color: 'var(--mut)', fontSize: 13.5, lineHeight: 1.6 }}>{profile.role[lang]}</p>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 16, padding: '7px 13px', border: '1px solid var(--ac)', borderRadius: 20, background: 'var(--ac-s)' }}>
-              <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--ac)', animation: 'pulse 1.6s infinite' }} />
-              <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ac)' }}>{profile.availability[lang]}</span>
-            </div>
           </div>
 
           {/* Navigation */}
