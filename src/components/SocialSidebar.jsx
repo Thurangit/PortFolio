@@ -4,6 +4,8 @@ import { SocialIcon } from '../assets/icons';
 
 const STAGGER = 0.4;   // secondes entre chaque décrochage (3 × 0.4 + 0.8s de vol = ~2s au total)
 const TOTAL_MS = 2200; // durée totale (aller ou retour) avant de repasser au repos
+// WhatsApp est exclu des réseaux flottants (il reste sur la page Contact)
+const NETS = social.filter(s => s.id !== 'whatsapp');
 
 export default function SocialSidebar({ openSite, activeSite }) {
   // l'icône ouverte dans la visionneuse est masquée à sa place (elle « part » vers le centre)
@@ -49,7 +51,7 @@ export default function SocialSidebar({ openSite, activeSite }) {
     if (isMobile) return;
 
     const measureRest = () => {
-      social.forEach(s => {
+      NETS.forEach(s => {
         const orb = orbRefs.current[s.id];
         if (!orb) return;
         const prev = orb.style.transform;
@@ -63,7 +65,7 @@ export default function SocialSidebar({ openSite, activeSite }) {
     const trigger = () => {
       if (modeRef.current !== 'idle') return;
       const d = {};
-      social.forEach(s => {
+      NETS.forEach(s => {
         const r = restRef.current[s.id];
         const twin = document.querySelector(`footer [data-social="${s.id}"]`);
         if (r && twin) {
@@ -136,7 +138,7 @@ export default function SocialSidebar({ openSite, activeSite }) {
       position: 'fixed', right: 'clamp(12px,2vw,22px)', top: '50%', transform: 'translateY(-50%)',
       zIndex: 8000, display: 'flex', flexDirection: 'column', gap: 12, perspective: '900px'
     }}>
-      {social.map((s, i) => {
+      {NETS.map((s, i) => {
         const d = deltas[s.id];
         const animate = (mode === 'in' || mode === 'out') && d;
         const cls = 'social-orb' + (animate ? (mode === 'in' ? ' social-merge' : ' social-unmerge') : '');

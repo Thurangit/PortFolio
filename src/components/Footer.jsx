@@ -55,7 +55,7 @@ export default function Footer({ lang = 'fr', setPage }) {
           <div>
             <h3 style={{ margin: '0 0 16px', fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ac)' }}>{heads.contact}</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
-              {social.filter(s => s.id === 'email' || s.id === 'whatsapp').map(s => (
+              {social.filter(s => s.id === 'email').map(s => (
                 <a key={s.id} href={s.url} target="_blank" rel="noopener noreferrer" className="footer-link"
                   style={{ fontFamily: 'var(--disp)', fontSize: 15, color: 'var(--mut)' }}>{s.handle}</a>
               ))}
@@ -67,7 +67,7 @@ export default function Footer({ lang = 'fr', setPage }) {
           <div style={{ perspective: '600px' }}>
             <h3 style={{ margin: '0 0 16px', fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ac)' }}>{heads.social}</h3>
             <div data-social-group style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              {social.map(s => (
+              {social.filter(s => s.id !== 'whatsapp').map(s => (
                 <a key={s.id} href={s.url} target="_blank" rel="noopener noreferrer" className="social-orb" title={s.label} data-social={s.id}
                   onMouseEnter={() => setHovered(s.id)} onMouseLeave={() => setHovered(null)}
                   style={{
