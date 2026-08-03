@@ -64,6 +64,9 @@ export default function CodeRain() {
         ctx.fillRect(mouse.x - R, mouse.y - R, R * 2, R * 2);
       }
 
+      // quand la visionneuse est ouverte, la pluie de code devient plus visible
+      const boost = document.documentElement.hasAttribute('data-viewer') ? 2.6 : 1;
+
       ctx.font = `600 ${fs * dpr}px 'IBM Plex Mono', monospace`;
       for (let i = 0; i < cols; i++) {
         const ch = glyphs[(Math.random() * glyphs.length) | 0];
@@ -80,7 +83,7 @@ export default function CodeRain() {
 
         const head = Math.random() > 0.92;
         const base = head ? 0.24 : 0.045 + Math.random() * 0.075;
-        const a = Math.min(0.92, base + glow * 0.55);
+        const a = Math.min(0.95, (base + glow * 0.55) * boost);
         ctx.fillStyle = `rgba(${rainRGB},${a})`;
         ctx.fillText(ch, x, y);
 

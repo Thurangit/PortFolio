@@ -103,8 +103,14 @@ input, textarea, button { font-family: inherit; }
   100% { opacity: 0; transform: translate(var(--mdx), var(--mdy)) rotateY(0deg) scale(var(--msc)); }
 }
 .social-merge { animation: social-merge 0.8s cubic-bezier(.45,0,.2,1) both; }
-/* retour : les icônes ressortent du footer et reviennent sur le flottant (animation inversée) */
-.social-unmerge { animation: social-merge 0.8s cubic-bezier(.45,0,.2,1) reverse both; }
+/* retour : chaque icône ressort du footer (faded) et revient se poser sur le flottant.
+   Keyframe explicite (pas de `reverse`) pour que le décalage fonctionne au retour aussi. */
+@keyframes social-return {
+  0%   { opacity: 0; transform: translate(var(--mdx), var(--mdy)) rotateY(0deg) scale(var(--msc)); }
+  45%  { opacity: 1; transform: translate(calc(var(--mdx) * .55), calc(var(--mdy) * .55)) rotateY(-24deg) scale(calc(1 - (1 - var(--msc)) * .55)); }
+  100% { opacity: 1; transform: translate(0,0) rotateY(0deg) scale(1); }
+}
+.social-unmerge { animation: social-return 0.8s cubic-bezier(.45,0,.2,1) both; }
 
 /* Carte de lien social (page contact) — inclinaison 3D + éclat */
 .social-card {
@@ -126,3 +132,136 @@ input, textarea, button { font-family: inherit; }
 
 .skill-bar-track { height: 6px; background: var(--panel); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
 .skill-bar-fill { display: block; height: 100%; width: 0; background: var(--ac); border-radius: 20px; transition: width 1.1s cubic-bezier(.2,.8,.2,1); }
+
+/* ─────────── Visionneuse de site en iframe (réseaux & projets) ─────────── */
+/* le contenu de la page s'efface en fondu → le fond animé transparaît davantage */
+.page-dimmed { opacity: .08; filter: blur(7px); transform: scale(.985); transition: opacity .6s ease, filter .6s ease, transform .6s ease; pointer-events: none; }
+
+.viewer-backdrop { position: fixed; inset: 0; z-index: 7000; display: flex; flex-direction: column;
+  background: color-mix(in srgb, var(--bg) 30%, transparent);
+  animation: viewer-in .55s ease both; }
+@keyframes viewer-in { from { opacity: 0; } to { opacity: 1; } }
+.viewer-backdrop.closing { animation: viewer-out .8s ease both; }
+@keyframes viewer-out { to { opacity: 0; } }
+
+.viewer-topbar { position: absolute; top: clamp(14px,2vw,22px); left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 4; }
+.viewer-btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 24px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font-family: var(--mono); font-size: 12.5px; cursor: pointer; box-shadow: 0 14px 34px -18px rgba(11,11,15,.5); transition: .2s; text-decoration: none; }
+.viewer-btn:hover { border-color: var(--ac); color: var(--ac); }
+.viewer-btn-primary { background: var(--ink); color: var(--ink-fg); border-color: var(--ink); }
+.viewer-btn-primary:hover { background: var(--ac); border-color: var(--ac); color: #fff; }
+
+/* étape intro : l'élément cliqué VOYAGE depuis sa position jusqu'au centre (FLIP).
+   --fromdx/--fromdy = écart position cliquée → centre ; --fromscale = taille source/cible. */
+.viewer-perspective { position: fixed; inset: 0; perspective: 1200px; z-index: 3; pointer-events: none; }
+.viewer-travel-logo {
+  position: fixed; left: 50%; top: 50%; width: 112px; height: 112px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--paper); border: 1px solid var(--line);
+  box-shadow: 0 34px 70px -34px rgba(11,11,15,.55);
+  animation: viewer-travel-logo .9s cubic-bezier(.45,0,.2,1) both;
+}
+@keyframes viewer-travel-logo {
+  0%   { transform: translate(calc(-50% + var(--fromdx)), calc(-50% + var(--fromdy))) scale(var(--fromscale)); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+.viewer-travel-card {
+  position: fixed; left: 50%; top: 50%; width: min(360px, 90vw); min-height: 168px; max-height: 82vh; border-radius: 18px;
+  background: var(--paper); border: 1px solid var(--ac); box-shadow: 0 40px 80px -38px rgba(11,11,15,.55);
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 11px; padding: 26px 24px; text-align: center;
+  overflow-y: auto; transform-style: preserve-3d;
+  animation: viewer-travel-card 1s cubic-bezier(.45,0,.2,1) both;
+}
+/* détails dans le modal projet */
+.viewer-desc { color: var(--mut); font-size: 13.5px; line-height: 1.55; margin: 2px 0; max-width: 300px; }
+.viewer-tech { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+/* loader + boutons intégrés DANS la carte projet */
+.viewer-in-card { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; margin-top: 4px; }
+/* la carte se RETOURNE (rotateY) pendant qu'elle voyage vers le centre */
+@keyframes viewer-travel-card {
+  0%   { transform: perspective(1100px) translate(calc(-50% + var(--fromdx)), calc(-50% + var(--fromdy))) rotateY(180deg) scale(var(--fromscale)); }
+  65%  { transform: perspective(1100px) translate(-50%, -50%) rotateY(-14deg) scale(1); }
+  100% { transform: perspective(1100px) translate(-50%, -50%) rotateY(0deg) scale(1); }
+}
+/* retour : l'élément repart du centre vers sa position d'origine (même animation, inversée) */
+.viewer-travel-logo.closing { animation: viewer-travel-logo-out .8s cubic-bezier(.5,0,.25,1) both; }
+@keyframes viewer-travel-logo-out {
+  from { transform: translate(-50%, -50%) scale(1); }
+  to   { transform: translate(calc(-50% + var(--fromdx)), calc(-50% + var(--fromdy))) scale(var(--fromscale)); }
+}
+.viewer-travel-card.closing { animation: viewer-travel-card-out .85s cubic-bezier(.5,0,.25,1) both; }
+@keyframes viewer-travel-card-out {
+  0%   { transform: perspective(1100px) translate(-50%, -50%) rotateY(0deg) scale(1); }
+  100% { transform: perspective(1100px) translate(calc(-50% + var(--fromdx)), calc(-50% + var(--fromdy))) rotateY(180deg) scale(var(--fromscale)); }
+}
+
+/* le loader se transforme en boutons (ouvrir / fermer) après 2 s — côte à côte, même largeur */
+.viewer-actions { display: flex; gap: 10px; justify-content: center; align-items: center; animation: viewer-in .4s ease both; }
+.viewer-actions .viewer-btn { min-width: 122px; justify-content: center; text-align: center; }
+
+/* réseaux : loader/boutons rapprochés de l'icône (juste en dessous), sans le nom */
+.viewer-meta { position: fixed; left: 50%; top: calc(50% + 80px); transform: translateX(-50%); z-index: 3;
+  display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center;
+  animation: viewer-meta-in .5s ease .55s both; }
+@keyframes viewer-meta-in { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translateX(-50%); } }
+.viewer-title { font-family: var(--disp); font-weight: 700; font-size: clamp(20px,2.6vw,30px); text-align: center; }
+.viewer-sub { font-family: var(--mono); font-size: 12px; color: var(--mut); }
+
+.viewer-loader { width: 220px; height: 4px; border-radius: 20px; background: var(--panel); overflow: hidden; }
+.viewer-loader > span { display: block; height: 100%; width: 42%; border-radius: 20px; background: var(--ac); animation: viewer-loader-slide 1.15s ease-in-out infinite; }
+@keyframes viewer-loader-slide { 0% { transform: translateX(-120%); } 100% { transform: translateX(300%); } }
+
+/* étape site : iframe sans bordure */
+.viewer-frame { flex: 1; margin: clamp(64px,9vh,90px) clamp(10px,2vw,22px) clamp(10px,2vw,22px); position: relative; border-radius: 18px; overflow: hidden; background: var(--paper); box-shadow: 0 50px 120px -55px rgba(11,11,15,.6); animation: viewer-frame-in .6s ease both; }
+@keyframes viewer-frame-in { from { opacity: 0; transform: scale(.985); } to { opacity: 1; transform: none; } }
+.viewer-iframe { width: 100%; height: 100%; border: 0; display: block; transition: opacity .5s ease; }
+.viewer-frame-loader { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; background: var(--paper); }
+.viewer-frame-hint { position: absolute; left: 0; right: 0; bottom: 18px; text-align: center; font-family: var(--mono); font-size: 11.5px; color: var(--mut); }
+
+@media (prefers-reduced-motion: reduce) {
+  .viewer-backdrop, .viewer-stage-in, .viewer-card, .viewer-frame, .viewer-logo { animation: none !important; }
+}
+
+/* ─────────────── Bottom navigation (mobile) ─────────────── */
+.bottom-nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 6000;
+  display: flex; align-items: stretch;
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter: blur(18px) saturate(1.3); -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -12px 34px -24px rgba(11,11,15,.55);
+}
+.bottom-nav-indicator {
+  position: absolute; top: 0; width: 26px; height: 3px; border-radius: 0 0 5px 5px;
+  background: var(--ac); transform: translateX(-50%);
+  transition: left .42s cubic-bezier(.5,.05,.15,1);
+  box-shadow: 0 1px 14px -1px var(--ac);
+}
+.bottom-nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 11px 2px 9px; background: none; border: none; cursor: pointer;
+  color: var(--mut); transition: color .25s, transform .12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.bottom-nav-item.active { color: var(--ac); }
+.bottom-nav-item:active { transform: scale(.86); }
+.bottom-nav-ico { display: grid; place-items: center; transition: transform .32s cubic-bezier(.2,.8,.2,1); }
+.bottom-nav-item.active .bottom-nav-ico { transform: translateY(-2px) scale(1.1); }
+.bottom-nav-label { font-family: var(--mono); font-size: 9px; letter-spacing: .01em; line-height: 1; white-space: nowrap; }
+
+/* grilles responsives : « Explorez », projets et pied de page */
+.discover-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.projects-grid { grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); }
+.footer-cols { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+/* espace en bas du contenu pour ne pas être masqué par la bottom nav */
+@media (max-width: 767px) {
+  .app-content { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+  /* accueil : la photo passe avant le texte en mobile */
+  .hero-photo { order: -1; height: clamp(300px, 42vh, 420px) !important; }
+  /* cartes projet mobile : pas de détails (le modal les affiche), on garde les technos */
+  .project-desc { display: none; }
+  /* deux colonnes en mobile */
+  .discover-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .footer-cols { grid-template-columns: repeat(2, 1fr); gap: 24px 18px; }
+}

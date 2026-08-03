@@ -5,7 +5,9 @@ import { SocialIcon } from '../assets/icons';
 const STAGGER = 0.4;   // secondes entre chaque décrochage (3 × 0.4 + 0.8s de vol = ~2s au total)
 const TOTAL_MS = 2200; // durée totale (aller ou retour) avant de repasser au repos
 
-export default function SocialSidebar() {
+export default function SocialSidebar({ openSite, activeSite }) {
+  // l'icône ouverte dans la visionneuse est masquée à sa place (elle « part » vers le centre)
+  const activeId = activeSite && activeSite.kind === 'social' ? activeSite.iconId : null;
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth < 768);
   const [hovered, setHovered] = useState(null);
   const [atFooter, setAtFooter] = useState(false);      // mobile : fondu de la pilule
@@ -111,29 +113,23 @@ export default function SocialSidebar() {
     target: '_blank',
     rel: 'noopener noreferrer',
     title: s.label,
+    onClick: (e) => {
+      // les réseaux s'ouvrent dans la visionneuse iframe (sauf l'email → client mail)
+      if (openSite && s.id !== 'email') {
+        const r = e.currentTarget.getBoundingClientRect();
+        e.preventDefault();
+        openSite({
+          url: s.url, title: s.label, kind: 'social', accent: s.brand, iconId: s.id,
+          origin: { cx: r.left + r.width / 2, cy: r.top + r.height / 2, w: r.width, h: r.height }
+        });
+      }
+    },
     onMouseEnter: () => setHovered(s.id),
     onMouseLeave: () => setHovered(null)
   });
 
-  if (isMobile) {
-    return (
-      <div style={{
-        position: 'fixed', left: '50%', bottom: 16, zIndex: 8000,
-        transform: atFooter ? 'translateX(-50%) translateY(28px) scale(.9)' : 'translateX(-50%)',
-        opacity: atFooter ? 0 : 1, pointerEvents: atFooter ? 'none' : 'auto',
-        transition: 'opacity .5s ease, transform .5s cubic-bezier(.2,.8,.2,1)',
-        display: 'flex', gap: 10, background: 'var(--paper)', border: '1px solid var(--line)',
-        borderRadius: 30, padding: '8px 10px', boxShadow: '0 16px 40px -20px rgba(11,11,15,.5)', perspective: '800px'
-      }}>
-        {social.map(s => (
-          <a key={s.id} {...linkProps(s)} className="social-orb"
-            style={{ width: 40, height: 40, borderRadius: '50%', border: '1px solid transparent', display: 'grid', placeItems: 'center', color: colorFor(s), opacity: opacityFor(s) }}>
-            <SocialIcon id={s.id} />
-          </a>
-        ))}
-      </div>
-    );
-  }
+  // sur mobile, la navigation du bas prend le relais : pas de réseaux flottants
+  if (isMobile) return null;
 
   return (
     <div style={{
@@ -152,6 +148,7 @@ export default function SocialSidebar() {
             style={{
               width: 44, height: 44, borderRadius: '50%', border: `1px solid ${borderFor(s, 'var(--line)')}`,
               background: 'var(--paper)', display: 'grid', placeItems: 'center', color: colorFor(s), opacity: opacityFor(s),
+              visibility: activeId === s.id ? 'hidden' : undefined,
               boxShadow: hovered === s.id ? `0 18px 34px -16px ${s.brand}66` : '0 8px 22px -14px rgba(11,11,15,.4)',
               ...vars
             }}>

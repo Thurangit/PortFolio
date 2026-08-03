@@ -108,7 +108,7 @@ export default function HomePage({ lang, setPage }) {
           </div>
         </div>
 
-        <div className="reveal" style={{ flex: '1 1 400px', minWidth: 'min(100%,300px)', position: 'relative', height: 'clamp(380px,54vh,560px)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+        <div className="reveal hero-photo" style={{ flex: '1 1 400px', minWidth: 'min(100%,300px)', position: 'relative', height: 'clamp(380px,54vh,560px)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
           <img src={profile.photo} alt={profile.name}
             style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', filter: 'drop-shadow(0 30px 45px rgba(11,11,15,.28))', pointerEvents: 'none' }} />
           <div style={{ position: 'absolute', left: 4, bottom: 8, fontFamily: 'var(--mono)', fontSize: 11, color: '#fff', background: 'rgba(11,11,15,.72)', padding: '6px 11px', borderRadius: 20, backdropFilter: 'blur(4px)' }}>
@@ -217,7 +217,7 @@ export default function HomePage({ lang, setPage }) {
             {t.discoverIntro}
           </h2>
         </div>
-        <div style={{ marginTop: 40, display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: 'clamp(12px,1.6vw,20px)' }}>
+        <div className="discover-grid" style={{ marginTop: 40, display: 'grid', gap: 'clamp(12px,1.6vw,20px)' }}>
           {discoverCards.map(c => (
             <button key={c.key} className="reveal card" onClick={() => goTo(c.page)} {...discoverTilt}
               style={{ textAlign: 'left', cursor: 'pointer' }}>

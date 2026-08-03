@@ -24,7 +24,7 @@ export default function Footer({ lang = 'fr', setPage }) {
   return (
     <footer style={{ borderTop: '1px solid var(--line)', background: 'var(--panel)', backdropFilter: 'blur(4px)' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: 'clamp(52px,7vw,84px) clamp(20px,5vw,64px) clamp(24px,3vw,34px)' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 'clamp(30px,4vw,60px)' }}>
+        <div className="footer-cols" style={{ display: 'grid', gap: 'clamp(26px,4vw,60px)' }}>
 
           {/* Marque */}
           <div style={{ maxWidth: 320 }}>
@@ -89,7 +89,6 @@ export default function Footer({ lang = 'fr', setPage }) {
         {/* Barre du bas */}
         <div style={{ marginTop: 'clamp(36px,5vw,56px)', paddingTop: 22, borderTop: '1px solid var(--line)', display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--mut)' }}>© {year} {profile.name}</div>
-          <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--mut)' }}>{lang === 'fr' ? 'Conçu à Douala' : 'Crafted in Douala'} · React · Three.js</div>
           <button onClick={toTop} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'none', border: '1px solid var(--line)', borderRadius: 20, padding: '8px 14px', fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ink)', cursor: 'pointer' }}>
             {lang === 'fr' ? 'Haut de page' : 'Back to top'} ↑
           </button>
