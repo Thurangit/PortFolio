@@ -39,10 +39,12 @@ export default function SiteViewer({ site, onClose, lang = 'fr' }) {
     setTimeout(() => onClose && onClose(), 860); // laisse l'animation retour se finir
   };
 
+  const isEmail = site.iconId === 'email' || (site.url || '').startsWith('mailto:');
   const buttons = (
     <div className="viewer-actions">
-      <a className="viewer-btn viewer-btn-primary" href={site.url} target="_blank" rel="noopener noreferrer">
-        {t('Ouvrir', 'Open')} ↗
+      <a className="viewer-btn viewer-btn-primary" href={site.url}
+        {...(isEmail ? {} : { target: '_blank', rel: 'noopener noreferrer' })}>
+        {isEmail ? t('Écrire', 'Write') : t('Ouvrir', 'Open')} {isEmail ? '✉' : '↗'}
       </a>
       <button className="viewer-btn" onClick={close}>{t('Fermer', 'Close')}</button>
     </div>

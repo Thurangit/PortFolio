@@ -116,8 +116,8 @@ export default function SocialSidebar({ openSite, activeSite }) {
     rel: 'noopener noreferrer',
     title: s.label,
     onClick: (e) => {
-      // les réseaux s'ouvrent dans la visionneuse iframe (sauf l'email → client mail)
-      if (openSite && s.id !== 'email') {
+      // tous les réseaux (y compris l'email) passent par la visionneuse
+      if (openSite) {
         const r = e.currentTarget.getBoundingClientRect();
         e.preventDefault();
         openSite({

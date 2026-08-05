@@ -155,7 +155,7 @@ input, textarea, button { font-family: inherit; }
 .viewer-perspective { position: fixed; inset: 0; perspective: 1200px; z-index: 3; pointer-events: none; }
 .viewer-travel-logo {
   position: fixed; left: 50%; top: 50%; width: 112px; height: 112px; border-radius: 50%;
-  display: grid; place-items: center; background: var(--paper); border: 1px solid var(--line);
+  display: grid; place-items: center; background: #fff; border: 1px solid var(--line);
   box-shadow: 0 34px 70px -34px rgba(11,11,15,.55);
   animation: viewer-travel-logo .9s cubic-bezier(.45,0,.2,1) both;
 }

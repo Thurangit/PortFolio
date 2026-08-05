@@ -24,7 +24,7 @@ export const experience = [
     period: "Mars 2024 — Fév. 2025",
     year: 2024,
     current: false,
-    type: "CDI",
+    type: "CDD",
     summary: {
       fr: "Refonte des applications héritées de Bolloré pour les mettre en conformité avec les standards de développement, de sécurité et de déploiement du groupe MSC.",
       en: "Rebuilt legacy Bolloré applications to comply with the MSC group's development, security and deployment standards."
