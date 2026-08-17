@@ -24,8 +24,8 @@ export const social = [
   {
     id: "email",
     label: "Email",
-    handle: "thuransabba.ing@gmail.com",
-    url: "mailto:thuransabba.ing@gmail.com",
+    handle: "thurankono.ing@gmail.com",
+    url: "mailto:thurankono.ing@gmail.com",
     brand: "#EA4335"
   }
 ];
