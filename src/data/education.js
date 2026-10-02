@@ -23,7 +23,7 @@ export const education = [
   {
     title: { fr: "Google Project Management", en: "Google Project Management" },
     org: "Google · Coursera",
-    year: 2025,
+    year: 2026,
     kind: "cert",
     status: { fr: "En cours", en: "In progress" }
   },
